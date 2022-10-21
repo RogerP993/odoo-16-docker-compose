@@ -10,7 +10,7 @@ services:
     restart: always             # run as a service
     volumes:
         - ./postgresql:/var/lib/postgresql/data
-
+        - odoo-db:/var/lib/postgresql/data
   odoo16:
     image: odoo:16
     user: root
@@ -26,10 +26,12 @@ services:
       - USER=odoo
       - PASSWORD=odoo16@2022
     volumes:
+      - odoo-web-data:/var/lib/odoo
       #- /etc/timezone:/etc/timezone:ro
       #- /etc/localtime:/etc/localtime:ro
       # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
+      
     restart: always             # run as a service
     
