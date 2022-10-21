@@ -3,14 +3,11 @@ services:
   db:
     image: postgres:15
     user: root
-    environment:
-      - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=odoo16@2022      
-      - POSTGRES_DB=postgres
+    env_file: ./etc/.env
     restart: always             # run as a service
     volumes:
-        - odoo-db:/var/lib/postgresql/data
-  odoo16:
+        - ./postgresql:/var/lib/postgresql/data
+o16:
     image: odoo:16
     user: root
     depends_on:
@@ -20,17 +17,12 @@ services:
       - "20016:8072" # live chat
     tty: true
     command: --
-    environment:
-      - HOST=db
-      - USER=odoo
-      - PASSWORD=odoo16@2022
+    env_file: ./etc/.env
     volumes:
-
       #- /etc/timezone:/etc/timezone:ro
       #- /etc/localtime:/etc/localtime:ro
       # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
-      
     restart: always             # run as a service
     
